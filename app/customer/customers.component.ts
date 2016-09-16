@@ -8,17 +8,28 @@ import { Observable } from 'rxjs/Rx';
   providers: [CustomerService]
 })
 export class CustomersComponent implements OnInit {
-  customers: Observable<any[]>;
+  customers: any[];
 
   constructor(private _customerService: CustomerService) {
   }
 
   ngOnInit() {
-    this.customers = this._customerService
+    this._customerService
       .getCustomers()
+      .then((customers) => {
+        this.customers = customers
+      })
       .catch((err) => {
         console.log(err);
         return Observable.of(true);
       });
+
+    // Rx Obsersvable Version
+    // this.customers = this._customerService
+    //   .getCustomers()
+    //   .catch((err) => {
+    //     console.log(err);
+    //     return Observable.of(true);
+    //   });
   }
 }
